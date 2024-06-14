@@ -1,20 +1,14 @@
 import path from "path";
 
 import { createLogger, format, transports } from "winston";
-const { colorize, combine, timestamp, printf, errors } = format;
-
-const devFormatte = printf(({ level, message, timestamp }) => {
-    return `${timestamp} [${level}]: ${message}`;
-});
+const { colorize, combine, timestamp, errors } = format;
 
 const devLogger = (logPath) => {
     return createLogger({
         level: "debug",
         format: combine(
-            // colorize(),
             timestamp({ format: "HH:mm:ss" }),
             errors({ stack: true }),
-            // devFormatte
             format.json()
         ),
         transports: [
@@ -30,7 +24,7 @@ const devLogger = (logPath) => {
 
         exceptionHandlers: [
             new transports.Console({
-                format: format.combine(format.colorize(), format.simple()),
+                format: format.simple(),
             }),
             new transports.File({
                 filename: path.join(logPath, "exceptions_dev.log"),
