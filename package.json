@@ -1,0 +1,23 @@
+{
+  "name": "cody",
+  "version": "1.0.0",
+  "description": "The AI PR Reviewer",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "keywords": [
+    "cody"
+  ],
+  "author": "Deepak Chouhan",
+  "license": "ISC",
+  "dependencies": {
+    "@google/generative-ai": "^0.12.0",
+    "diff": "^5.2.0",
+    "dotenv": "^16.4.5",
+    "octokit": "^4.0.2",
+    "openai": "^4.47.3",
+    "winston": "^3.13.0"
+  }
+}
