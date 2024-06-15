@@ -1,7 +1,7 @@
 import path from "path";
 
 import { createLogger, format, transports } from "winston";
-const { combine, timestamp, errors } = format;
+const { combine, timestamp } = format;
 
 const prodLogger = (logPath) => {
     return createLogger({
