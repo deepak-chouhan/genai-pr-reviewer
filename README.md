@@ -1,5 +1,3 @@
-<img src="./public/banner.png" alt="banner"/>
-
-<br>
-
 # GenAI PR Reviewer
+
+<img src="./public/banner.png" alt="banner"/>
