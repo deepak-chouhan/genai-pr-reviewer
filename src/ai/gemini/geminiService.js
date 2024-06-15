@@ -1,8 +1,9 @@
-import logger from "../../logger/logger.js";
 import handleError from "../../controllers/handleError.js";
-
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import config from "../../config/config.js";
+import getFilenameAndDirname from "../../utils/getFilenameAndDirname.js";
+
+const { __filename } = getFilenameAndDirname(import.meta);
 
 const MODEL = "gemini-1.5-flash";
 

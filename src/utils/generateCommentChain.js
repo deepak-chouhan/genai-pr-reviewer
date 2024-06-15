@@ -1,5 +1,8 @@
 import handleError from "../controllers/handleError.js";
 import logger from "../logger/logger.js";
+import getFilenameAndDirname from "./getFilenameAndDirname.js";
+
+const { __filename } = getFilenameAndDirname(import.meta);
 
 function generateCommentChain(messages, platform = "openai") {
     if (!messages) {

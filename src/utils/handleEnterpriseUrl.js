@@ -1,4 +1,7 @@
 import handleError from "../controllers/handleError.js";
+import getFilenameAndDirname from "./getFilenameAndDirname.js";
+
+const { __filename } = getFilenameAndDirname(import.meta);
 
 function handleEnterpriseUrl(url) {
     if (!url) {
