@@ -1,4 +1,5 @@
-# genai-pr-reviewer
-GenAI PR Reviewer
+<img src="./public/banner.png" alt="banner"/>
 
-<img src="./public//ai.png" alt="ai" width="400" />
+<br>
+
+# GenAI PR Reviewer
