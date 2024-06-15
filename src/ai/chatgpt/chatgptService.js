@@ -1,6 +1,9 @@
 import { OpenAI } from "openai";
 import config from "../../config/config.js";
 import handleError from "../../controllers/handleError.js";
+import getFilenameAndDirname from "../../utils/getFilenameAndDirname.js";
+
+const { __filename } = getFilenameAndDirname(import.meta);
 
 const MODEL = "gpt-3.5-turbo";
 
@@ -17,7 +20,7 @@ async function chatgpt(messageChain) {
         });
         return chatCompletion.choices[0]?.message?.content;
     } catch (error) {
-        handleError(error);
+        handleError(error, { source: chatgpt.name, __filename });
         return res;
     }
 }

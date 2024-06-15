@@ -1,11 +1,24 @@
+import handleError from "../controllers/handleError.js";
+import logger from "../logger/logger.js";
+import getFilenameAndDirname from "./getFilenameAndDirname.js";
+
+const { __filename } = getFilenameAndDirname(import.meta);
+
 function generateCommentChain(messages, platform = "openai") {
     if (!messages) {
-        throw new Error("Error! Message: messages not valid or undefined");
+        handleError(
+            new Error("Error! Message: messages not valid or undefined"),
+            {
+                source: generateCommentChain.name,
+                __filename,
+            }
+        );
     }
 
     let messageChain = [];
 
     if (platform === "openai") {
+        logger.info("Generating Comment Chain, Platform: OpenAI");
         messages.map((message) => {
             const role = message.user.type === "Bot" ? "assistant" : "user";
             const content = message.body;
@@ -16,6 +29,7 @@ function generateCommentChain(messages, platform = "openai") {
             });
         });
     } else if (platform === "gemini") {
+        logger.info("Generating Comment Chain, Platform: Gemini");
         messages.map((message) => {
             const role = message.user.type === "Bot" ? "model" : "user";
             const parts = [{ text: message.body }];

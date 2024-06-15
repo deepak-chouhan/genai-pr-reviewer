@@ -1,7 +1,9 @@
 import handleError from "../handleError.js";
-
 import { messageReopened } from "../../utils/messageTemplates.js";
 import logger from "../../logger/logger.js";
+import getFilenameAndDirname from "../../utils/getFilenameAndDirname.js";
+
+const { __filename } = getFilenameAndDirname(import.meta);
 
 async function handlePullRequestReopened({ octokit, payload }) {
     logger.info(
@@ -15,7 +17,10 @@ async function handlePullRequestReopened({ octokit, payload }) {
             body: messageReopened,
         });
     } catch (error) {
-        handleError(error);
+        handleError(error, {
+            source: handlePullRequestReopened.name,
+            __filename,
+        });
     }
 }
 
