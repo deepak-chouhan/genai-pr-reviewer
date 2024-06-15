@@ -5,7 +5,7 @@ const { combine, timestamp } = format;
 
 const prodLogger = (logPath) => {
     return createLogger({
-        level: "info",
+        level: "error",
         format: combine(timestamp(), format.json()),
         transports: [
             new transports.File({
@@ -15,7 +15,11 @@ const prodLogger = (logPath) => {
             new transports.File({
                 filename: path.join(logPath, "all_prod.log"),
             }),
-            new transports.Console(),
+        ],
+        exceptionHandlers: [
+            new transports.File({
+                filename: path.join(logPath, "exceptions_prod.log"),
+            }),
         ],
     });
 };
