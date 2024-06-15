@@ -15,7 +15,10 @@ async function handlePullRequestOpened({ octokit, payload }) {
             body: messageOpened,
         });
     } catch (error) {
-        handleError(error);
+        handleError(error, {
+            source: handlePullRequestOpened.name,
+            __filename,
+        });
     }
 }
 

@@ -119,7 +119,10 @@ async function handleIssueCommentCreated({ octokit, payload }) {
                 });
             }
         } catch (error) {
-            handleError(error);
+            handleError(error, {
+                source: handleIssueCommentCreated.name,
+                __filename,
+            });
         }
     } else {
         logger.info(`Got a Comment from Bot: ${payload.sender.login}`);

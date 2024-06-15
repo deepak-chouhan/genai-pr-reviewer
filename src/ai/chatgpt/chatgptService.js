@@ -17,7 +17,7 @@ async function chatgpt(messageChain) {
         });
         return chatCompletion.choices[0]?.message?.content;
     } catch (error) {
-        handleError(error);
+        handleError(error, { source: chatgpt.name, __filename });
         return res;
     }
 }

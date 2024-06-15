@@ -2,14 +2,20 @@ import handleError from "../controllers/handleError.js";
 
 function handleEnterpriseUrl(url) {
     if (!url) {
-        handleError(new Error(`Given URL -> "${url}" is not valid.`));
+        handleError(new Error(`Given URL -> "${url}" is not valid.`), {
+            source: handleEnterpriseUrl.name,
+            __filename,
+        });
     }
 
     let parsedUrl;
     try {
         parsedUrl = new URL(url);
     } catch (e) {
-        handleError(new Error(`Given URL -> "${url}" is not a valid URL.`));
+        handleError(new Error(`Given URL -> "${url}" is not a valid URL.`), {
+            source: handleEnterpriseUrl.name,
+            __filename,
+        });
     }
 
     // Regular expression to match GitHub Enterprise URL patterns
@@ -18,7 +24,10 @@ function handleEnterpriseUrl(url) {
     if (githubEnterprisePattern.test(parsedUrl.hostname) === true) {
         return parsedUrl.origin;
     } else {
-        handleError(new Error("Please enter a GitHub Enterprise URL."));
+        handleError(new Error("Please enter a GitHub Enterprise URL."), {
+            source: handleEnterpriseUrl.name,
+            __filename,
+        });
     }
 }
 

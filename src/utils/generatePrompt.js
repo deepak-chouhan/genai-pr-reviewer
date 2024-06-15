@@ -1,4 +1,4 @@
-import config from "../config/config.js";
+import logger from "../logger/logger.js";
 import generateCommentChain from "./generateCommentChain.js";
 import {
     getHunkPrompt,
@@ -15,6 +15,8 @@ export default function generatePrompt(
     },
     platform = "openai"
 ) {
+    logger.info(`Generating Prompt isReviewComment: ${isReviewComment}`);
+    
     let commentChain;
     if (isReviewComment) {
         const prompt = getHunkPrompt(filePath, hunk, platform);
