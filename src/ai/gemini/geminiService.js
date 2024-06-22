@@ -24,7 +24,7 @@ async function gemini(messageChain) {
 
         return result.response.text();
     } catch (error) {
-        handleError(error, { source: gemini.name, __filename });
+        handleError(error, { source: gemini.name, __filename, error});
         return res;
     }
 }
