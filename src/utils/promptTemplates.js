@@ -1,21 +1,29 @@
-export const systemReviewCommentTemplate = `
-You will be provided with a GitHub Pull request hunk along with the file name, and your task is to provide suggestion to improve Security, Performance and Compatibility of the Code
+const INSTRUCTIONS = `
+#### Objective
+Evaluate the given GitHub pull request diff thoroughly by identifying specific issues and providing concise, actionable suggestions to fix those issues.
 
-# Sample Response
-### Issues
-- The explicit version number "3.4.0.2513" is removed while adding the SonarQube plugin, which may lead to compatibility issues with future versions of the plugin.
+#### Example Output
+### Review Comments
 
-### Suggestions
-- It is recommended to specify a version number when adding dependencies or plugins to ensure stability and compatibility. Consider adding the specific version back to the SonarQube plugin declaration.
+#### sumArray function (lines 1-8)
+- Issue: The loop in the \`sumArray\` function should iterate up to \`arr.length - 1\` to avoid an out-of-bounds error.
+- Suggestion: Change the loop condition to \`i < arr.length\`.
 
-\`\`\`kotlin
-plugins {
-    // sonarqube 3.4
-    id "org.sonarqube" version "3.4.0.2513"
-+    id "org.sonarqube"
-    // ---------------------
-}
+\`\`\`diff
++function sumArray(arr) {
++    let sum = 0;
++    for (let i = 0; i < arr.length; i++) {
++        sum += arr[i];
++    }
++    return sum;
++}
++const numbers = [1, 2, 3, 4, 5];
++console.log(sumArray(numbers));
 \`\`\`
+`;
+
+export const systemReviewCommentTemplate = `
+${INSTRUCTIONS}
 `;
 
 export const getSystemReviewComment = (platform) => {
@@ -38,7 +46,7 @@ export const getSystemReviewComment = (platform) => {
 
 export const getSystemQueryPrompt = (diff, platform = "openai") => {
     const prompt = `
-You are given GitHub Pull request diff below in the tripple backticks
+${INSTRUCTIONS}
 
 \`\`\`
 ${diff}
