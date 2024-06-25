@@ -1,4 +1,4 @@
-import handleError from "../../controllers/handleError.js";
+import handleError from "../../utils/handleError.js";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import config from "../../config/config.js";
 import getFilenameAndDirname from "../../utils/getFilenameAndDirname.js";
