@@ -4,7 +4,7 @@ import logger from "../../logger/logger.js";
 import fetchPullReuestData from "../../utils/fetchPullRequestData.js";
 import generatePrompt from "../../utils/generatePrompt.js";
 import getFilenameAndDirname from "../../utils/getFilenameAndDirname.js";
-import handleError from "../handleError.js";
+import handleError from "../../utils/handleError.js";
 import { parsePatch } from "diff";
 
 const { __filename } = getFilenameAndDirname(import.meta);

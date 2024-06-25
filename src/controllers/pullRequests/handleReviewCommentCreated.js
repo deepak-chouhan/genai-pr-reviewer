@@ -3,7 +3,7 @@ import config from "../../config/config.js";
 import logger from "../../logger/logger.js";
 import generatePrompt from "../../utils/generatePrompt.js";
 import getFilenameAndDirname from "../../utils/getFilenameAndDirname.js";
-import handleError from "../handleError.js";
+import handleError from "../../utils/handleError.js";
 
 const { __filename } = getFilenameAndDirname(import.meta);
 

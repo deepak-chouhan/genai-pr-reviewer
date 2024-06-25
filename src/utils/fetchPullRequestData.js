@@ -1,4 +1,4 @@
-import handleError from "../controllers/handleError.js";
+import handleError from "./handleError.js";
 import logger from "../logger/logger.js";
 import getFilenameAndDirname from "./getFilenameAndDirname.js";
 

@@ -1,4 +1,4 @@
-import handleError from "../handleError.js";
+import handleError from "../../utils/handleError.js";
 import { messageReopened } from "../../utils/messageTemplates.js";
 import logger from "../../logger/logger.js";
 import getFilenameAndDirname from "../../utils/getFilenameAndDirname.js";
