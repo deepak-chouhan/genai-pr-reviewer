@@ -1,7 +1,7 @@
 import handleError from "../../utils/handleError.js";
-import { messageReopened } from "../../utils/messageTemplates.js";
 import logger from "../../logger/logger.js";
 import getFilenameAndDirname from "../../utils/getFilenameAndDirname.js";
+import { MESSAGE_REOPENED } from "../../utils/messageTemplates.js";
 
 const { __filename } = getFilenameAndDirname(import.meta);
 
@@ -14,7 +14,7 @@ async function handlePullRequestReopened({ octokit, payload }) {
             owner: payload.repository.owner.login,
             repo: payload.repository.name,
             issue_number: payload.pull_request.number,
-            body: messageReopened,
+            body: MESSAGE_REOPENED,
         });
     } catch (error) {
         handleError(error, {

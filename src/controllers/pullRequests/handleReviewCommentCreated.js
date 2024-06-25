@@ -49,7 +49,7 @@ async function handleReviewCommentCreated({ octokit, payload }) {
     );
 
     if (payload.sender.type === "User") {
-        console.log(`Got a Comment from User: ${payload.sender.login}`);
+        logger.info(`Got a Comment from User: ${payload.sender.login}`);
         try {
             const owner = payload.repository.owner.login;
             const repo = payload.repository.name;
