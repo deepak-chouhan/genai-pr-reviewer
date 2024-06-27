@@ -15,8 +15,8 @@ export default function generatePrompt(
     },
     platform = "openai"
 ) {
-    logger.info(`Generating Prompt isReviewComment: ${isReviewComment}`);
-    
+    logger.info(`Generating Prompt`, { isReviewComment, platform, filePath });
+
     let commentChain;
     if (isReviewComment) {
         const prompt = getHunkPrompt(filePath, hunk, platform);

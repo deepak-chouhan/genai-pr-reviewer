@@ -5,10 +5,13 @@ import getFilenameAndDirname from "./getFilenameAndDirname.js";
 const { __filename } = getFilenameAndDirname(import.meta);
 
 async function fetchPullReuestData(octokit, owner, repo, pullNumber) {
+    const loggerObject = {
+        pullNumber,
+        repo,
+        owner,
+    };
     try {
-        logger.info(
-            `Fetching Pull Request Data Repo: ${repo} Pull Request No: ${pullNumber}`
-        );
+        logger.info(`Fetching Pull Request Data`, loggerObject);
         const { data: pullRequestData } = await octokit.rest.pulls.get({
             owner,
             repo,

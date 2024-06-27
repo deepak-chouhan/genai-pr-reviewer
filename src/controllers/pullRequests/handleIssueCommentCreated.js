@@ -13,21 +13,21 @@ const AGENT_COMMAND = `/${config.agentName}`; // Ex: /cody
 const PLATFORM = config.platform;
 
 async function handleIssueCommentCreated({ octokit, payload }) {
-    logger.info(`Received a Issue Comment Event for #${payload.issue.number}`);
+    const owner = payload.repository.owner.login;
+    const repo = payload.repository.name;
+    const issueNumber = payload.issue.number;
+    const commentBody = payload.comment.body;
+
+    // User Info
+    const userId = payload.comment.user.id;
+    const userLogin = payload.comment.user.login;
+
+    const loggerObject = { userLogin, pullNumber: issueNumber, repo, owner };
+    logger.info(`Received a Issue Comment Event`, loggerObject);
 
     if (payload.sender.type === "User") {
-        logger.info(`Got a Comment from User: ${payload.sender.login}`);
-
+        logger.info(`Received a Comment from User`, loggerObject);
         try {
-            const owner = payload.repository.owner.login;
-            const repo = payload.repository.name;
-            const issueNumber = payload.issue.number;
-            const commentBody = payload.comment.body;
-
-            // User Info
-            const userId = payload.comment.user.id;
-            const userLogin = payload.comment.user.login;
-
             if (commentBody.trim() === AGENT_COMMAND) {
                 const { pullRequestData, diff } = await fetchPullReuestData(
                     octokit,
@@ -125,10 +125,11 @@ async function handleIssueCommentCreated({ octokit, payload }) {
             handleError(error, {
                 source: handleIssueCommentCreated.name,
                 __filename,
+                loggerObject
             });
         }
     } else {
-        logger.info(`Got a Comment from Bot: ${payload.sender.login}`);
+        logger.info(`Recieved a Comment from Bot`, loggerObject);
     }
 }
 
