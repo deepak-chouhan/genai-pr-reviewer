@@ -1,6 +1,6 @@
 import { OpenAI } from "openai";
 import config from "../../config/config.js";
-import handleError from "../../controllers/handleError.js";
+import handleError from "../../utils/handleError.js";
 import getFilenameAndDirname from "../../utils/getFilenameAndDirname.js";
 
 const { __filename } = getFilenameAndDirname(import.meta);

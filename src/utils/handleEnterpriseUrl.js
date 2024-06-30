@@ -1,4 +1,4 @@
-import handleError from "../controllers/handleError.js";
+import handleError from "./handleError.js";
 import getFilenameAndDirname from "./getFilenameAndDirname.js";
 
 const { __filename } = getFilenameAndDirname(import.meta);

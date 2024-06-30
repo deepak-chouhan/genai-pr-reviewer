@@ -54,10 +54,12 @@ ${diff}
 
 Your task is to comply with the user's queries.
 
-# Important
-1. Whenever necessary use code snippets from the given diff to answers the query.
-2. Strictly Comply with queries considering point 1 and give facts.
+# IMPORTANT
+1. Follow the given instructions above.
+2. Whenever necessary use code snippets from the given diff to answers the query.
+3. Strictly Comply with queries considering point 2 and give facts.
 `;
+
     if (platform === "openai") {
         return {
             role: "system",

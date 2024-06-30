@@ -1,4 +1,4 @@
-import handleError from "../controllers/handleError.js";
+import handleError from "./handleError.js";
 import logger from "../logger/logger.js";
 import getFilenameAndDirname from "./getFilenameAndDirname.js";
 
@@ -18,7 +18,7 @@ function generateCommentChain(messages, platform = "openai") {
     let messageChain = [];
 
     if (platform === "openai") {
-        logger.info("Generating Comment Chain, Platform: OpenAI");
+        logger.info("Generating Comment Chain", { platform });
         messages.map((message) => {
             const role = message.user.type === "Bot" ? "assistant" : "user";
             const content = message.body;
@@ -29,7 +29,7 @@ function generateCommentChain(messages, platform = "openai") {
             });
         });
     } else if (platform === "gemini") {
-        logger.info("Generating Comment Chain, Platform: Gemini");
+        logger.info("Generating Comment Chain", { platform });
         messages.map((message) => {
             const role = message.user.type === "Bot" ? "model" : "user";
             const parts = [{ text: message.body }];
