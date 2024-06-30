@@ -26,6 +26,7 @@ async function handlePullRequestOpened({ octokit, payload }) {
         handleError(error, {
             source: handlePullRequestOpened.name,
             __filename,
+            loggerObject,
         });
     }
 }

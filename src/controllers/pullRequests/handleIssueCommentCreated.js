@@ -125,7 +125,7 @@ async function handleIssueCommentCreated({ octokit, payload }) {
             handleError(error, {
                 source: handleIssueCommentCreated.name,
                 __filename,
-                loggerObject
+                loggerObject,
             });
         }
     } else {

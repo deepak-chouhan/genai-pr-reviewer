@@ -139,6 +139,7 @@ async function handleReviewCommentCreated({ octokit, payload }) {
             handleError(error, {
                 source: handleReviewCommentCreated.name,
                 __filename,
+                loggerObject
             });
         }
     } else {
