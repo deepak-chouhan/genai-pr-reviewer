@@ -3,7 +3,7 @@ import config from "../../config/config.js";
 import logger from "../../logger/logger.js";
 import generatePrompt from "../../utils/generatePrompt.js";
 import getFilenameAndDirname from "../../utils/getFilenameAndDirname.js";
-import handleError from "../handleError.js";
+import handleError from "../../utils/handleError.js";
 
 const { __filename } = getFilenameAndDirname(import.meta);
 
@@ -44,25 +44,31 @@ async function getReviewCommentHistory(
 }
 
 async function handleReviewCommentCreated({ octokit, payload }) {
-    logger.info(
-        `Received a comment event in thread for #${payload.pull_request.number}`
-    );
+    const owner = payload.repository.owner.login;
+    const repo = payload.repository.name;
+    const issueNumber = payload.pull_request.number;
+    const commentId = payload.comment.id;
+    const commentBody = payload.comment.body;
+    const diff = payload.comment.diff_hunk;
+    const filePath = payload.comment.path;
+
+    const userId = payload.comment.user.id;
+    const userLogin = payload.comment.user.login;
+    const inReplyToId = payload.comment.in_reply_to_id;
+
+    const loggerObject = {
+        userLogin,
+        pullNumber: issueNumber,
+        repo,
+        owner,
+        commentId,
+        inReplyToId,
+    };
+    logger.info(`Received a comment event in thread`, loggerObject);
 
     if (payload.sender.type === "User") {
-        console.log(`Got a Comment from User: ${payload.sender.login}`);
+        logger.info(`Received a Comment from User`, loggerObject);
         try {
-            const owner = payload.repository.owner.login;
-            const repo = payload.repository.name;
-            const issueNumber = payload.pull_request.number;
-            const commentId = payload.comment.id;
-            const commentBody = payload.comment.body;
-            const diff = payload.comment.diff_hunk;
-            const filePath = payload.comment.path;
-
-            const userId = payload.comment.user.id;
-            const userLogin = payload.comment.user.login;
-            const inReplyToId = payload.comment.in_reply_to_id;
-
             if (commentBody.trim() === AGENT_COMMAND) {
                 const prompt = generatePrompt(
                     {
@@ -133,10 +139,11 @@ async function handleReviewCommentCreated({ octokit, payload }) {
             handleError(error, {
                 source: handleReviewCommentCreated.name,
                 __filename,
+                loggerObject
             });
         }
     } else {
-        logger.info(`Got a Comment from Bot: ${payload.sender.login}`);
+        logger.info(`Got a Comment from Bot`, loggerObject);
     }
 }
 
