@@ -32,6 +32,7 @@ async function handleIssueCommentCreated({ octokit, payload }) {
     try {
         if (commentBody.trim() === AGENT_COMMAND) {
             await handleAgentCommand({
+                octokit,
                 owner,
                 repo,
                 issueNumber,
@@ -56,7 +57,7 @@ async function handleIssueCommentCreated({ octokit, payload }) {
     }
 }
 
-async function handleAgentCommand({ owner, repo, issueNumber, userLogin }) {
+async function handleAgentCommand({ octokit, owner, repo, issueNumber, userLogin }) {
     const { pullRequestData, diff } = await fetchPullReuestData(
         octokit,
         owner,
