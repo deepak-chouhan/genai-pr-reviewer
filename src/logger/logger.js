@@ -10,8 +10,7 @@ const __dirname = path.dirname(__filename);
 
 const logPath = path.join(__dirname, "../../logs");
 
-let logger = null;
-
+let logger;
 if (config.environment === "DEV") {
     logger = devLogger(logPath);
     logger.info("Using Development Logger");

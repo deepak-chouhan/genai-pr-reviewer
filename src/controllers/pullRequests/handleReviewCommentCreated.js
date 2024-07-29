@@ -66,84 +66,84 @@ async function handleReviewCommentCreated({ octokit, payload }) {
     };
     logger.info(`Received a comment event in thread`, loggerObject);
 
-    if (payload.sender.type === "User") {
-        logger.info(`Received a Comment from User`, loggerObject);
-        try {
-            if (commentBody.trim() === AGENT_COMMAND) {
-                const prompt = generatePrompt(
-                    {
-                        filePath: filePath,
-                        hunk: diff,
-                        isReviewComment: true,
-                    },
-                    PLATFORM
-                );
+    if (payload.sender.type !== "User") {
+        logger.info(`Got a Comment from Bot`, loggerObject);
+    }
 
-                let message = await ai(prompt);
+    logger.info(`Received a Comment from User`, loggerObject);
+    try {
+        if (commentBody.trim() === AGENT_COMMAND) {
+            const prompt = generatePrompt(
+                {
+                    filePath: filePath,
+                    hunk: diff,
+                    isReviewComment: true,
+                },
+                PLATFORM
+            );
 
-                // Reply to the user who commented
-                if (!message.includes(userLogin)) {
-                    message = `@${userLogin}\n` + message;
-                }
+            let message = await ai(prompt);
 
-                await octokit.rest.pulls.createReplyForReviewComment({
-                    owner,
-                    repo,
-                    pull_number: issueNumber,
-                    comment_id: commentId,
-                    body: message,
-                });
+            // Reply to the user who commented
+            if (!message.includes(userLogin)) {
+                message = `@${userLogin}\n` + message;
             }
-            // Handle Case when user asks query using `/cody <query>`
-            else if (commentBody.includes(AGENT_COMMAND)) {
-                // Filter the comments for the thread
-                let userCommentHistory;
-                if (inReplyToId) {
-                    userCommentHistory = await getReviewCommentHistory(
-                        octokit,
-                        owner,
-                        repo,
-                        issueNumber,
-                        userId,
-                        userLogin,
-                        inReplyToId
-                    );
-                } else {
-                    userCommentHistory = [payload.comment];
-                }
 
-                const prompt = generatePrompt(
-                    {
-                        hunk: diff,
-                        userCommentHistory: userCommentHistory,
-                    },
-                    PLATFORM
-                );
-
-                let message = await ai(prompt);
-
-                // Reply to the user who commented
-                if (!message.includes(userLogin)) {
-                    message = `@${userLogin}\n` + message;
-                }
-
-                await octokit.rest.pulls.createReplyForReviewComment({
-                    owner,
-                    repo,
-                    pull_number: issueNumber,
-                    comment_id: commentId,
-                    body: message,
-                });
-            }
-        } catch (error) {
-            handleError(error, {
-                source: handleReviewCommentCreated.name,
-                __filename,
-                loggerObject
+            await octokit.rest.pulls.createReplyForReviewComment({
+                owner,
+                repo,
+                pull_number: issueNumber,
+                comment_id: commentId,
+                body: message,
             });
         }
-    } else {
-        logger.info(`Got a Comment from Bot`, loggerObject);
+        // Handle Case when user asks query using `/cody <query>`
+        else if (commentBody.includes(AGENT_COMMAND)) {
+            // Filter the comments for the thread
+            let userCommentHistory;
+            if (inReplyToId) {
+                userCommentHistory = await getReviewCommentHistory(
+                    octokit,
+                    owner,
+                    repo,
+                    issueNumber,
+                    userId,
+                    userLogin,
+                    inReplyToId
+                );
+            } else {
+                userCommentHistory = [payload.comment];
+            }
+
+            const prompt = generatePrompt(
+                {
+                    hunk: diff,
+                    userCommentHistory: userCommentHistory,
+                },
+                PLATFORM
+            );
+
+            let message = await ai(prompt);
+
+            // Reply to the user who commented
+            if (!message.includes(userLogin)) {
+                message = `@${userLogin}\n` + message;
+            }
+
+            await octokit.rest.pulls.createReplyForReviewComment({
+                owner,
+                repo,
+                pull_number: issueNumber,
+                comment_id: commentId,
+                body: message,
+            });
+        }
+    } catch (error) {
+        handleError(error, {
+            source: handleReviewCommentCreated.name,
+            __filename,
+            loggerObject,
+        });
     }
 }
 
