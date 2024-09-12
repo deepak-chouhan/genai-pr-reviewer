@@ -25,6 +25,7 @@ async function handleIssueCommentCreated({ octokit, payload }) {
 
     if (payload.sender.type !== "User") {
         logger.info(`Recieved a Comment from Bot`, loggerObject);
+        return;
     }
 
     logger.info(`Received a Comment from User`, loggerObject);
